@@ -14,7 +14,7 @@ SECRET_KEY = 'r8cd42$qx8)700o7svws6je7yr5%13^k+(jcczh&83hudk5o_v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["5.187.6.34", "ishop.fedor-nemira.com"]
+ALLOWED_HOSTS = ["5.187.6.34", "ishop.andreychuyko.ru"]
 
 
 # Application definition
