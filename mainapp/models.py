@@ -122,8 +122,8 @@ class Smartphone(Product):
     reslution = models.CharField(max_length=255, verbose_name='Разрешение экрана')
     accum_voluem = models.CharField(max_length=255, verbose_name='Обьем батареи')
     ram = models.CharField(max_length=255, verbose_name='Оперативная память')
-    sd = models.BooleanField(default=True)
-    sd_voluem_max = models.CharField(max_length=255, verbose_name='Максимальный объем встраивамой памяти')
+    sd = models.BooleanField(default=True, verbose_name='Наличие SD карты')
+    sd_voluem_max = models.CharField(max_length=255,null=True, blank=True, verbose_name='Максимальный объем встраивамой памяти')
     main_cam_mp = models.CharField(max_length=255, verbose_name='Главная камера')
     frontal_cam_mp = models.CharField(max_length=255, verbose_name='Фронтальная камера')
 
@@ -133,18 +133,24 @@ class Smartphone(Product):
     def get_absolute_url(self):
         return get_product_url(self, 'product_detail')
 
-class CartProduct(models.Model):
+    @property
+    def sd(self):
+        id self.sd:
+            return 'Да'
+        return 'Нет'
+
+class CartProduct(models.Model): """Товары в карзину"""
 
     user = models.ForeignKey('Customer', verbose_name='Покупатель', on_delete=models.CASCADE)
     cart = models.ForeignKey('Cart', verbose_name='Корзина', on_delete=models.CASCADE, related_name='related_products')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey('content_type', 'object_id') """позволяет добалять модели в карзину"""
     qty = models.PositiveIntegerField(default=1)
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Итого')
 
     def __str__(self):
-        return 'Продукт: {} (для корзины)'.format(self.product.title)
+        return 'Продукт: {} (для корзины)'.format(self.content_object.title)
 
 class Cart(models.Model):
 

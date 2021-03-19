@@ -1,6 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
+from mainapp.models import Smartphone
 register = template.Library()
 
 TABLE_HEAD = """
@@ -53,6 +54,13 @@ def get_product_spec(product, model_name):
 
 @register.filter
 def product_spec(product):
+    
     model_name = product.__class__.meta.model_name
+    if isinstance(product, Smartphone):
+        if not product.sd:
+            #то мы заходим в продукт спек с ключем смартфон и убираем ключ максимальный обьем сд карты
+            PRODUCT_SPEC['smartphone'].pop('Максимаотный объем SD карты')
+        else:
+            PRODUCT_SPEC['smartphone']['Максимаотный объем SD карты'] = 'sd_volume_max'
     # привращает все в html код
     return mark_safe(TABLE_HEAD + get_product_spec(product, model_name) + TABLE_TAIL)

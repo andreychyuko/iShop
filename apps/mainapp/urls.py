@@ -1,9 +1,11 @@
+from django.conf.urls import url, include
+from apps.mainapp import views 
+from django.urls import path, re_path
 
-from django.urls import path
-from .views import tets_view, ProductDetailView
+app_name = 'mainapp'
+urlpatterns = [  
 
-urlpatterns = [
-    path('', tets_view, name='base'),
-    path('products/<str:ct_model>/<str:slug>', ProductDetailView.as_view(), name='product_detail')
-]
+    # daily diet 
+    url(r'^(?P<name>\w+)$', views.hello), 
 
+]  о
